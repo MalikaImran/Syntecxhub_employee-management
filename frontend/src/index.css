@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #050508; --bg2: #0d0d14; --bg3: #13131e;
+  --card: #181825; --card2: #1e1e2e;
+  --border: rgba(255,255,255,0.05); --border2: rgba(255,255,255,0.09);
+  --a1: #00d4ff; --a2: #2563eb; --a3: #06ffa5; --a4: #ff6b6b; --a5: #ffd93d;
+  --text: #e8e8ff; --t2: #7878a0; --t3: #3a3a55;
+  --r: 16px; --rs: 10px;
+}
+
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: 'Outfit', sans-serif !important;
+  background: #050508 !important;
+  color: #e8e8ff !important;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+#root { background: #050508 !important; min-height: 100vh; color: #e8e8ff; }
+
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 50% at 5% 0%, rgba(0,212,255,0.08), transparent 60%),
+    radial-gradient(ellipse 60% 60% at 95% 100%, rgba(37,99,235,0.1), transparent 60%),
+    radial-gradient(ellipse 40% 40% at 50% 50%, rgba(6,255,165,0.03), transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0d0d14; }
+::-webkit-scrollbar-thumb { background: #2563eb; border-radius: 4px; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+@keyframes spin { to { transform:rotate(360deg); } }
+@keyframes shimmer { from { background-position:-200% 0; } to { background-position:200% 0; } }
