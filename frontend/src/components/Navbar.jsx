@@ -1,51 +1,68 @@
 import './Navbar.css';
 
-const navItems = [
-  { id: 'dashboard', label: 'Dashboard', icon: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-  )},
-  { id: 'employees', label: 'Employees', icon: (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-  )},
-];
+export default function Navbar({ view, setView, user, onLogout }) {
+  const isAdmin = user?.role === 'admin';
 
-export default function Navbar({ view, setView, onAddNew }) {
   return (
     <nav className="navbar">
-      <div className="nav-inner">
-        {/* Brand */}
-        <div className="brand">
-          <div className="brand-logo">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="white" opacity=".9"/>
-              <path d="M2 17l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round" opacity=".7"/>
-              <path d="M2 12l10 5 10-5" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="brand-text">
-            <span className="brand-name">StaffHub</span>
-            <span className="brand-version">Pro</span>
-          </div>
-        </div>
+      {/* BRAND */}
+      <div className="brand">
+        <div className="brand-logo">S</div>
+        <span className="brand-name">StaffHub</span>
+        <span className="brand-tag">v2.0</span>
+      </div>
 
-        {/* Nav tabs */}
-        <div className="nav-tabs">
-          {navItems.map(item => (
-            <button
-              key={item.id}
-              className={`nav-tab ${view === item.id ? 'active' : ''}`}
-              onClick={() => setView(item.id)}
-            >
-              {item.icon}
-              <span>{item.label}</span>
+      {/* TABS — admin sees all, employee sees only profile */}
+      <div className="nav-tabs">
+        {isAdmin && (
+          <>
+            <button className={`nav-tab ${view==='dashboard'?'active':''}`} onClick={() => setView('dashboard')}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+              </svg>
+              <span className="lbl">Dashboard</span>
             </button>
-          ))}
-        </div>
+            <button className={`nav-tab ${view==='employees'?'active':''}`} onClick={() => setView('employees')}>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+              <span className="lbl">Employees</span>
+            </button>
+          </>
+        )}
+        {!isAdmin && (
+          <button className={`nav-tab ${view==='profile'?'active':''}`} onClick={() => setView('profile')}>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span className="lbl">My Profile</span>
+          </button>
+        )}
+      </div>
 
-        {/* Actions */}
-        <div className="nav-actions">
-
+      {/* RIGHT — user info + logout */}
+      <div className="nav-right">
+        <div className="nav-user">
+          <div className="nav-avatar">{(user?.name||'U')[0]}</div>
+          <div className="nav-user-info">
+            <div className="nav-user-name">{user?.name}</div>
+            <div className={`nav-role-badge ${isAdmin ? 'role-admin' : 'role-emp'}`}>
+              {isAdmin ? '⚡ Admin' : '👤 Employee'}
+            </div>
+          </div>
         </div>
+        <button className="logout-btn" onClick={onLogout} title="Logout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span className="lbl">Logout</span>
+        </button>
       </div>
     </nav>
   );
