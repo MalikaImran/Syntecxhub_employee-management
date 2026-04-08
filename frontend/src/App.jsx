@@ -6,7 +6,7 @@ import Dashboard from './components/Dashboard';
 import EmployeeList from './components/EmployeeList';
 import EmployeeProfile from './components/EmployeeProfile';
 import EmployeeForm from './components/EmployeeForm';
-import { getEmployees, deleteEmployee, getStats } from './api';
+import { getEmployees, deleteEmployee, getStats, fetchCsrfToken } from './api';
 import './App.css';
 
 export default function App() {
@@ -46,6 +46,9 @@ export default function App() {
     await fetchEmployees();
     await fetchStats();
   }, [fetchEmployees, fetchStats]);
+
+  // WEEK 5: Fetch CSRF token when app starts
+  useEffect(() => { fetchCsrfToken(); }, []);
 
   useEffect(() => {
     if (user) refreshAll();
